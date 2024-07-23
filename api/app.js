@@ -1,12 +1,21 @@
 const express = require('express');
-const router = express.Router();
+const productsRouter = require('../routes/products'); // Ruta de productos
+const cartsRouter = require('../routes/carts'); // Ruta de carritos
 
-// Importar routers
-const productsRouter = require('../routes/products');
-const cartsRouter = require('../routes/carts');
+const app = express();
+const port = 8080;
 
-// Definir rutas
-router.use('/products', productsRouter);
-router.use('/carts', cartsRouter);
+// Middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Añadido para manejar datos de formularios
 
-module.exports = router;
+// Rutas
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
+
+// Iniciar el servidor
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+
+module.exports = app;
